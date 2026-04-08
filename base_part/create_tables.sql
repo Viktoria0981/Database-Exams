@@ -4,7 +4,7 @@ CREATE TABLE exam.groups (
     group_id VARCHAR(50) PRIMARY KEY,
     students_num INTEGER NOT NULL CHECK (students_num > 0),
     faculty VARCHAR(100) NOT NULL,
-    academic_leave INTEGER DEFAULT 0 CHECK (academic_leave >= 0)
+    academic_leave INTEGER CHECK (academic_leave >= 0)
 );
 CREATE TABLE exam.student (
     student_id INTEGER PRIMARY KEY,
@@ -38,11 +38,11 @@ CREATE TABLE exam.exam (
     exam_date DATE NOT NULL,
     room VARCHAR(50) NOT NULL,
     duration_minutes INT NOT NULL,
-    exam_format VARCHAR(10) NOT NULL CHECK(exam_format in('spoken', 'written', 'dif_test'))
+    exam_format VARCHAR(50) NOT NULL CHECK(exam_format in('spoken', 'written', 'dif_test'))
 );
 CREATE TABLE exam.ticket (
     ticket_id INTEGER PRIMARY KEY,
-    difficulty VARCHAR(10) NOT NULL CHECK(difficulty IN ('high', 'medium', 'low')),
+    difficulty VARCHAR(50) NOT NULL CHECK(difficulty IN ('high', 'medium', 'low')),
     num_questions INTEGER NOT NULL CHECK(num_questions > 0)
 );
 CREATE TABLE exam.materials_for_exam (
@@ -71,7 +71,7 @@ CREATE TABLE exam.result (
 CREATE TABLE exam.appeal (
     appeal_id INTEGER PRIMARY KEY,
     result_id INTEGER REFERENCES exam.result(result_id) NOT NULL,
-    longing_mark NUMERIC(3, 1) NOT NULL CHECK (longing_mark >= 0),
+    longing_mark NUMERIC(3, 1) NOT NULL CHECK (longing_mark >= 0 AND longing_mark <= 10),
     complaint TEXT NOT NULL
 );
 CREATE TABLE exam.course_assignment (
